@@ -2,7 +2,7 @@
 
 See the live site at https://citysearcher-api.onrender.com/suggestions?q=Montreal
 
-It may take a minute or two to respond if the site hasn't been accessed recently.
+The Google Cloud VM may take a good 60-90 seconds to respond upon cold start since it's built using the free tier.
 
 Manually add query parameters to the link for latitude/longitude.
 
