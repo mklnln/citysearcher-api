@@ -1,6 +1,6 @@
 # Citysearcher API
 
-NOTE on Nov 25, 2023: GCP sometimes thinks people are mining crypto on their platform and shut down their VMs. I'm currently working with the Appeals team to fix this.
+NOTE on Nov 25, 2023: GCP sometimes [mistakenly thinks people are mining crypto on their platform]([url](https://www.google.com/search?client=firefox-b-d&q=gcp+project+stopped+because+cryptocurrency)) and shut down their VMs. I'm currently working with the Appeals team to fix this.
 
 See the live site at https://citysearcher-api.onrender.com/suggestions?q=Montreal
 
