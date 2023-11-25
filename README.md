@@ -1,5 +1,7 @@
 # Citysearcher API
 
+NOTE on Nov 25, 2023: GCP sometimes thinks people are mining crypto on their platform and shut down their VMs. I'm currently working with the Appeals team to fix this.
+
 See the live site at https://citysearcher-api.onrender.com/suggestions?q=Montreal
 
 The Google Cloud VM may take a good 60-90 seconds to respond upon cold start since it's built using the free tier.
