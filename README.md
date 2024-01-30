@@ -1,18 +1,18 @@
 # Citysearcher API
 
-NOTE on Nov 25, 2023: GCP sometimes [mistakenly thinks people are mining crypto on their platform](https://www.google.com/search?client=firefox-b-d&q=gcp+project+stopped+because+cryptocurrency) and shut down their VMs. I'm currently working with the Appeals team to fix this.
+NOTE on Nov 25, 2023: GCP sometimes [mistakenly thinks people are mining crypto on their platform](https://www.google.com/search?client=firefox-b-d&q=gcp+project+stopped+because+cryptocurrency) and shut down their VMs. I've decided to host this instead using a free tier of [ElephantSQL](https://www.elephantsql.com/).
 
 See the live site at https://citysearcher-api.onrender.com/suggestions?q=Montreal
 
-The Google Cloud VM may take a good 60-90 seconds to respond upon cold start since it's built using the free tier.
+The database may take a good 60-90 seconds to respond upon cold start since it's built using the free tier.
 
-Manually add query parameters to the link for latitude/longitude.
+Adding latitude and longitude to the URL will enable a scoring algorithm for the results.
 
 -   e.g. https://citysearcher-api.onrender.com/suggestions?q=Lon&latitude=43.70011&longitude=-79.4163
 
 ### Tech used
 
-This TypeScript Express server (hosted on Render) uses Prisma to send SQL queries. A Postgres database responds from a Docker container hosted on Google Cloud Platforms.
+This TypeScript Express server (hosted on Render) uses Prisma to send SQL queries. A Postgres database responds with JSON.
 
 ---
 
