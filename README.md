@@ -1,16 +1,24 @@
 # Citysearcher API
 
-NOTE on Nov 25, 2023: GCP sometimes [mistakenly thinks people are mining crypto on their platform](https://www.google.com/search?client=firefox-b-d&q=gcp+project+stopped+because+cryptocurrency) and shut down their VMs. I've decided to host this instead using a free tier of [ElephantSQL](https://www.elephantsql.com/).
+## What is this?
+
+Citysearcher is a little web app that pings a database with a string of letters and a latitude/longitude position. It returns suggestions of cities and scores these suggestions by how close they are in terms of a name match (e.g. "Mon" is close to "Montreal" but "Montr" is even better) and the latitude/longitude match.
+
+### Why?
+
+Well, if a user is wanting to get information about a place, we can make a reasonable guess that they're more interested in results that are nearer to them. If we have their position, we can use that information to provide a better user experience by guessing they want to see something nearby.
+
+### Example
 
 See the live site at https://citysearcher-api.onrender.com/suggestions?q=Montreal
 
-The database may take a good 60-90 seconds to respond upon cold start since it's built using the free tier.
+The database may take a good 60-90 seconds to respond upon cold start since it's built using the free tiers of hosting services. The server is hosted on [Render](https://render.com/) and the database is hosted on [Aiven](https://aiven.io/).
 
-Adding latitude and longitude to the URL will enable a scoring algorithm for the results.
+Adding latitude and longitude to the URL will enable the scoring algorithm for the results.
 
 -   e.g. https://citysearcher-api.onrender.com/suggestions?q=Lon&latitude=43.70011&longitude=-79.4163
 
-### Tech used
+## Tech used
 
 This TypeScript Express server (hosted on Render) uses Prisma to send SQL queries. A Postgres database responds with JSON.
 
@@ -75,39 +83,3 @@ Prisma plans for that by making any interpolated variables (i.e. our `const quer
 -   The Schema.prisma file contains the definition of the database schema (in Prisma called a model) which will be used to populate the database with the correct table fields and types, resulting in a very easy TypeScript integration
 -   /Prisma/seed.ts enjoys a very simple prisma.city.create query builder that seeds the database from the parsed TSV file
 -   SQL injection is taken care of
-
----
-
-## Why Docker?
-
-Containerization perhaps feels like the _big new thing_ in development and for good reason. I wanted to make the experience of any potential consumer of this repo seamless, and Docker is the best way to do that. No need to install Postgres or pgAdmin, just have Docker ready and run a couple commands and Bob's yer uncle.
-
-### Key Ideas
-
--   Docker runs on _images_: a version of programs like NodeJS, Alpine (lightweight Linux), Python, etc., any runtime environment one might need in order to develop code
--   The Google Cloud VM is just running Postgres. It was seeded remotely and the data persists in a Docker volume
--   The local Docker container spins up both Postgres and a NodeJS server. Dockerfile and Docker Compose are essential files providing important information for how each _service_ should be run. e.g. What images to use, what .env variables, any commands/scripts to run upon initialization, etc
-
----
-
-## Why Google Cloud Platform?
-
-I wanted a free option just for proof of concept and I knew this option would be free by choosing low enough specs. I felt like Google would be a reliable choice and would potentially be useful for future projects at a proper production scale.
-
-GCP let me open up an SSH terminal on a virtual Debian machine (VM) in the browser and then install Docker via the command line. I then spun up a simple Postgres image. From my Linux machine, I made a VM running Linux that itself was running Linux in Docker. It's Linuxes all the way down!
-
-The live site may have taken a minute or so to respond. _"Cold starts"_ like this occur when the VM instance gets recycled after inactivity. In other words, the virtual machine, alive and ready to process requests on Google's servers, eventually just gets turned off if it receives no more requests. Once it receives a request, it has to turn on. Imagine the time it takes for a computer to boot up and load its first program and you can appreciate why it might take a solid minute for that first request to come back with a result.
-
-### Key Ideas
-
--   A virtual machine is a bit like Docker, where you can run an operating system as if it were just another program, like running Firefox or Photoshop
--   My VM is running Debian (a Linux OS) within which runs Docker, which is then running Postgres, providing data back to my NodeJS server
--   Note that the _matryoshka-doll-ification_ of programs isn't a necessary component, it's just fun and enables some workarounds
-
----
-
-# Further Research
-
--   Multiple containers to _'horizontally scale'_ and thereby mitigate high levels of traffic. Each instance of a database/server could individually handle requests, so the load is more evenly distributed.
-
--   This likely requires a front-end, but putting both the Postgres and NodeJS app within the same Docker container (like we're doing locally) in the VM would've been something cool to try. Barring performance issues from the free tier, this could be an easy solution to hosting, meaning one less web service to set up
