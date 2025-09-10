@@ -12,7 +12,7 @@ Well, if a user is wanting to get information about a place, we can make a reaso
 
 See the live site at https://citysearcher-api.onrender.com/suggestions?q=Montreal
 
-The database may take a good 60-90 seconds to respond upon cold start since it's built using the free tiers of hosting services. The server is hosted on [Render](https://render.com/) and the database is hosted on [Aiven](https://aiven.io/).
+The database may take a good 60-90 seconds to respond upon cold start since it's built using the free tiers of hosting services. **_If you get a 502 Bad Gateway error, give it another minute and try again_**. The server is hosted on [Render](https://render.com/) and the database is hosted on [Aiven](https://aiven.io/).
 
 Adding latitude and longitude to the URL will enable the scoring algorithm for the results.
 
